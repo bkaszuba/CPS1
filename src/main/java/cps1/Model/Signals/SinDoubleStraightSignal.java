@@ -8,8 +8,8 @@ public class SinDoubleStraightSignal extends Signal {
     /**
      * Constructor (for params description go to base class (Signal Class)
      */
-    public SinDoubleStraightSignal(int minT, int maxT, double customDevide, int amplit) {
-        super(minT,maxT,customDevide,amplit);
+    public SinDoubleStraightSignal(int minT, int maxT, double customDevide, int amplit, double perio) {
+        super(minT,maxT,customDevide,amplit,perio);
         this.calculateValue();
     }
 
@@ -18,7 +18,7 @@ public class SinDoubleStraightSignal extends Signal {
      */
     public void calculateValue(){
         for(int i=tMin; i<arraySize; i++){
-            dataSet[i][1] = Math.abs(Math.sin(dataSet[i][0]) * amplitude);
+            dataSet[i][1] = amplitude *Math.abs(Math.sin((( 2 * Math.PI/ period ) * (dataSet[i][0] - tMin))));
         }
     }
 
