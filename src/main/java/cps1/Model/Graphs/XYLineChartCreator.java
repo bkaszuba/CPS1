@@ -1,4 +1,4 @@
-package cps1.Model;
+package cps1.Model.Graphs;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -20,7 +20,9 @@ import java.util.Map;
  */
 public class XYLineChartCreator extends ApplicationFrame {
 
-
+    /**
+     * Method for creating XY graph of signal
+     */
     public XYLineChartCreator(String applicationTitle, String chartTitle, double[][] data) {
         super(applicationTitle);
         JFreeChart xyLineChart = ChartFactory.createXYLineChart(
@@ -33,6 +35,9 @@ public class XYLineChartCreator extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
+    /**
+     * Method for creating dataset for graph
+     */
     private XYDataset createDataset(double[][] data) {
 
         final XYSeriesCollection dataset =

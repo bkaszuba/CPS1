@@ -1,4 +1,4 @@
-package cps1.Model;
+package cps1.Model.Operations;
 
 import cps1.Model.Signals.Signal;
 
@@ -13,57 +13,61 @@ public class Operation {
     double dataSet[][];
     int arraySize;
 
+
     public Operation(Signal _firstSignal, Signal _secondSignal) {
         firstSignal = _firstSignal;
         secondSignal = _secondSignal;
         calculateTime();
     }
 
+    /**
+     * Method for adding two signals
+     */
     public void add() {
-        dataSet = new double[firstSignal.getArraySize()][firstSignal.getArraySize()];
-        for (int i = 0; i < firstSignal.getArraySize(); i++) {
-            dataSet[i][1] = firstSignal.dataSet[i][1] + secondSignal.dataSet[i][1];
-            dataSet[i][0] = firstSignal.dataSet[i][0];
+        for (int i = 0; i < dataSet.length; i++) {
+
+            if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
+                dataSet[i][1] = firstSignal.dataSet[i][1] + secondSignal.dataSet[i][1];
+            }
         }
         result = new Signal(dataSet);
-        result.showDataSet();
         result.createPlot();
     }
-
+    /**
+     * Method for subtracting two signals
+     */
     public void subtract() {
-        dataSet = new double[firstSignal.getArraySize()][firstSignal.getArraySize()];
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
-            dataSet[i][1] = firstSignal.dataSet[i][1] - secondSignal.dataSet[i][1];
-            dataSet[i][0] = firstSignal.dataSet[i][0];
+            if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
+                dataSet[i][1] = firstSignal.dataSet[i][1] - secondSignal.dataSet[i][1];
+            }
         }
         result = new Signal(dataSet);
-        result.showDataSet();
         result.createPlot();
-
     }
-
+    /**
+     * Method for multiplying two signals
+     */
     public void multiply() {
-        dataSet = new double[firstSignal.getArraySize()][firstSignal.getArraySize()];
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
-            dataSet[i][1] = firstSignal.dataSet[i][1] * secondSignal.dataSet[i][1];
-            dataSet[i][0] = firstSignal.dataSet[i][0];
+            if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
+                dataSet[i][1] = firstSignal.dataSet[i][1] * secondSignal.dataSet[i][1];
+            }
         }
         result = new Signal(dataSet);
-        result.showDataSet();
         result.createPlot();
-
     }
-
+    /**
+     * Method for dividing two signals
+     */
     public void divide() {
-        dataSet = new double[firstSignal.getArraySize()][firstSignal.getArraySize()];
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
-            dataSet[i][1] = firstSignal.dataSet[i][1] / secondSignal.dataSet[i][1];
-            dataSet[i][0] = firstSignal.dataSet[i][0];
+            if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
+                dataSet[i][1] = firstSignal.dataSet[i][1] / secondSignal.dataSet[i][1];
+            }
         }
         result = new Signal(dataSet);
-        result.showDataSet();
         result.createPlot();
-
     }
 
     /**
@@ -71,12 +75,28 @@ public class Operation {
      */
     public void calculateTime() {
         int startX = getMin(firstSignal.gettMin(), secondSignal.gettMin());
-        int endX =  getMax(firstSignal.gettMax(), secondSignal.gettMax());
+        int endX = getMax(firstSignal.gettMax(), secondSignal.gettMax());
         int range = Math.abs(endX - startX);
         arraySize = (int) (range / 0.01);
         this.dataSet = new double[arraySize][arraySize];
+        double value = startX;
+        for (int i = 0; i < arraySize; i++) {
+            this.dataSet[i][0] = value;
+            value = value + 0.01;
+        }
     }
 
+    /**
+     * Method for checking if element exists
+     */
+    public static boolean isElementExists(double[][] data, int index) {
+        try {
+            Double d = data[index][0];
+            return true;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return false;
+        }
+    }
     public static int getMax(int a, int b) {
         return (a >= b ? a : b);
     }
