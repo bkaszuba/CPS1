@@ -5,6 +5,10 @@ import cps1.Model.Graphs.XYLineChartCreator;
 import org.jfree.ui.RefineryUtilities;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 
@@ -29,6 +33,11 @@ public class Signal {
     protected double variance;
     protected double rms;
 
+
+    public enum Type {
+        Params, Values;
+    }
+
     /**
      * Base class constructor
      *
@@ -44,9 +53,14 @@ public class Signal {
      *
      * @param _path - path to file with dataSet
      */
-    public Signal(String _path) {
+    public Signal(String _path, Type type) {
         try {
-            readFromFile(_path);
+            if (type.equals(Type.Params)) {
+                readParametersFromFile(_path);
+                calculateTime();
+            } else {
+                readFromFile(_path);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,6 +177,15 @@ public class Signal {
         }
     }
 
+    public void saveParametersToFile() {
+
+        try (PrintWriter out = new PrintWriter("params.txt")) {
+            out.print(toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Method for reading data from file to dataSet ( all values in x and y axis)
      */
@@ -192,6 +215,44 @@ public class Signal {
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
+    }
+
+    /**
+     * Method for reading data from file to dataSet ( all values in x and y axis)
+     */
+    public void readParametersFromFile(String path) throws IOException {
+
+        String param;
+        try {
+
+            param = new String(Files.readAllBytes(Paths.get(path)));
+            param = param.replaceAll("[^0-9.-]", " ");
+            String[] params = param.split("\\s+");
+            tMin = Integer.parseInt(params[1]);
+            tMax = Integer.parseInt(params[2]);
+            devide = Double.parseDouble(params[3]);
+            amplitude = Integer.parseInt(params[4]);
+            period = Double.parseDouble(params[5]);
+            fillingRate = Double.parseDouble(params[6]);
+            stepTime = Double.parseDouble(params[7]);
+
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Signal{" +
+                "tMin=" + tMin +
+                ", tMax=" + tMax +
+                ", devide=" + devide +
+                ", amplitude=" + amplitude +
+                ", period=" + period +
+                ", fillingRate=" + fillingRate +
+                ", stepTime=" + stepTime +
+                '}';
     }
 
     /**

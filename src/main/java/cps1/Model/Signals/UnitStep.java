@@ -14,15 +14,18 @@ public class UnitStep extends Signal {
      *
      * @param _path - path to file with dataSet
      */
-    public UnitStep(String _path) {
-        super(_path);
+    public UnitStep(String _path, Type type) {
+        super(_path,type);
+        if(type.equals(Type.Params)) {
+            this.calculateValue();
+        }
     }
 
     /**
      * Method for calculating values on Y-Axis
      */
     public void calculateValue() {
-        for (int i = tMin; i < arraySize; i++) {
+        for (int i = 0; i < arraySize; i++) {
 
             if (dataSet[i][0] > stepTime) {
                 dataSet[i][1] = amplitude;

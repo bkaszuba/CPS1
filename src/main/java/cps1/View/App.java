@@ -3,6 +3,7 @@ package cps1.View;
 import cps1.Model.Operations.Operation;
 import cps1.Model.Operations.ParametersCalculator;
 import cps1.Model.Signals.RectangularSignal;
+import cps1.Model.Signals.Signal;
 import cps1.Model.Signals.SinSignal;
 
 import java.io.IOException;
@@ -14,9 +15,10 @@ public class App {
     public static void main(String[] args) throws IOException {
 
 
-        SinSignal sin = new SinSignal(0,10, 0.01, 2, 4.0);
-//        SinSignal sin = new SinSignal("/Users/madekko/Developer/CPS1/signal.txt");
-//        sin.readFromFile("/Users/madekko/Developer/CPS1/signal.txt");
+//        SinSignal sin = new SinSignal(-10,10, 0.01, 2, 4.0);
+//            sin.saveParametersToFile();
+        SinSignal sin = new SinSignal("/Users/madekko/Developer/CPS1/params.txt", Signal.Type.Params);
+        System.out.println(sin.toString());
 //        sin.showDataSet();
 //        sin.drawPlot();
 
@@ -26,7 +28,7 @@ public class App {
 //        SinSingleStraightSignal sinSig = new SinSingleStraightSignal(0,10,0.01,10, 4.0);
 //        sinSig.drawPlot();
 
-//        RectangularSignal rectangularSignal = new RectangularSignal(0, 10, 0.01, 10, 4.0, 0.5);
+        RectangularSignal rectangularSignal = new RectangularSignal(0, 10, 0.01, 10, 4.0, 0.5);
 //        rectangularSignal.drawPlot();
 
 //        RectangularSymmetricSignal rectangularSymmetricSignal = new RectangularSymmetricSignal(0,6, 0.1,10, 4.0,0.5);

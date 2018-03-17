@@ -14,8 +14,11 @@ public class RectangularSignal extends Signal {
      *
      * @param _path - path to file with dataSet
      */
-    public RectangularSignal(String _path) {
-        super(_path);
+    public RectangularSignal(String _path, Type type) {
+        super(_path,type);
+        if(type.equals(Type.Params)) {
+            this.calculateValue();
+        }
     }
 
     /**
@@ -23,7 +26,7 @@ public class RectangularSignal extends Signal {
      */
     public void calculateValue() {
         int k = 0;
-        for (int i = tMin; i < arraySize; i++) {
+        for (int i = 0; i < arraySize; i++) {
             if (dataSet[i][0] > period * k + period + tMin) {
                 k++;
             }

@@ -18,15 +18,18 @@ public class SinDoubleStraightSignal extends Signal {
      *
      * @param _path - path to file with dataSet
      */
-    public SinDoubleStraightSignal(String _path) {
-        super(_path);
+    public SinDoubleStraightSignal(String _path, Type type) {
+        super(_path,type);
+        if(type.equals(Type.Params)) {
+            this.calculateValue();
+        }
     }
 
     /**
      * Method for calculating values on Y-Axis
      */
     public void calculateValue() {
-        for (int i = tMin; i < arraySize; i++) {
+        for (int i = 0; i < arraySize; i++) {
             dataSet[i][1] = amplitude * Math.abs(Math.sin(((2 * Math.PI / period) * (dataSet[i][0] - tMin))));
         }
     }
