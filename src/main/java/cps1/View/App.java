@@ -2,60 +2,343 @@ package cps1.View;
 
 import cps1.Model.Operations.Operation;
 import cps1.Model.Operations.ParametersCalculator;
-import cps1.Model.Signals.RectangularSignal;
-import cps1.Model.Signals.Signal;
-import cps1.Model.Signals.SinSignal;
+import cps1.Model.Signals.*;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Hello world!
  */
 public class App {
+
+
+    static Signal firstSignal;
+    static Signal secondSignal;
+
     public static void main(String[] args) throws IOException {
 
-
-//        SinSignal sin = new SinSignal(-10,10, 0.01, 2, 4.0);
-//            sin.saveParametersToFile();
-        SinSignal sin = new SinSignal("/Users/madekko/Developer/CPS1/params.txt", Signal.Type.Params);
-        System.out.println(sin.toString());
-//        sin.showDataSet();
-//        sin.drawPlot();
-
-//        SinDoubleStraightSignal sinDoub = new SinDoubleStraightSignal(0,10,0.01,10, 4.0);
-//        sinDoub.drawPlot();
-
-//        SinSingleStraightSignal sinSig = new SinSingleStraightSignal(0,10,0.01,10, 4.0);
-//        sinSig.drawPlot();
-
-        RectangularSignal rectangularSignal = new RectangularSignal(0, 10, 0.01, 10, 4.0, 0.5);
-//        rectangularSignal.drawPlot();
-
-//        RectangularSymmetricSignal rectangularSymmetricSignal = new RectangularSymmetricSignal(0,6, 0.1,10, 4.0,0.5);
-//        rectangularSymmetricSignal.drawPlot();
-
-//        TriangularSignal triangularSignal = new TriangularSignal(0,10, 0.1,10, 4.0,0.5);
-//        triangularSignal.drawPlot();
-
-//        UnitStep unitStep = new UnitStep(0,10, 0.01,6,4);
-//        unitStep.drawPlot();
-
-//        UnitImpulse unitImpulse = new UnitImpulse(0,20,0.1, 3,10);
-//        unitImpulse.drawPlot();
-
-//        ImpulseNoise impulseNoise = new ImpulseNoise(0,20,1.0,5,0.1);
-//        impulseNoise.drawPlot();
+        Signal firstSignal1;
+        Signal secondSignal2;
+        firstSignal1 = signalSwitch(showSignals(), firstSignal);
+        secondSignal2 = signalSwitch(showSignals(), secondSignal);
+        operations(firstSignal1, secondSignal2);
+    }
 
 
+    public static int showSignals() {
+        int numberOfSignal;
+        System.out.println("Menu");
+        System.out.println("Wybierz sygnał");
+        System.out.println("1. Szum o rozkładzie jednostajnym ");
+        System.out.println("2. Szum gaussowski ");
+        System.out.println("3. Sygnał sinusoidalny");
+        System.out.println("4. Sygnał sinusoidalny wyprostowany jednopołówkowo");
+        System.out.println("5. Sygnał sinusoidalny wyprostowany dwupołówkowo");
+        System.out.println("6. Sygnał prostokątny");
+        System.out.println("7. Sygnał prostokątny symetryczny");
+        System.out.println("8. Sygnał trójkątny");
+        System.out.println("9. Skok jednostkowy ");
+        System.out.println("10. Impuls jednostkowy ");
+        System.out.println("11. Szum impulsowy ");
+        System.out.print("Wybrany sygnał: ");
+        Scanner S = new Scanner(System.in);
+        numberOfSignal = S.nextInt();
+        return numberOfSignal;
+    }
 
-//        Operations such as adding etc
-//        Operation operation = new Operation(sin, rectangularSignal);
-//        operation.add();
+    public static int showSignalOptions() {
+        int numberOfOption;
+        System.out.println("Menu");
+        System.out.println("1. Wczytaj wartości z pliku");
+        System.out.println("2. Wczytaj parametry z pliku");
+        Scanner S = new Scanner(System.in);
+        numberOfOption = S.nextInt();
+        return numberOfOption;
+    }
 
-//        Calculating extra params
-//        ParametersCalculator parametersCalculator = new ParametersCalculator(sin);
-//        parametersCalculator.calculateAverage();
+    public static int showSaveSignalOptions() {
+        int numberOfOption;
+        System.out.println("Menu");
+        System.out.println("1. Zapisz parametry do pliku");
+        System.out.println("2. Zapisz wartości do pliku");
+        Scanner S = new Scanner(System.in);
+        numberOfOption = S.nextInt();
+        return numberOfOption;
+    }
 
+    public static int showOperations() {
+        int numberOfOption;
+        System.out.println("Menu");
+        System.out.println("1. Dodaj sygnały");
+        System.out.println("2. Odejmij sygnały");
+        System.out.println("3. Pomnóż sygnały");
+        System.out.println("4. Podziel sygnały");
+        Scanner S = new Scanner(System.in);
+        numberOfOption = S.nextInt();
+        return numberOfOption;
+    }
+
+    public static void operations(Signal firstSignal, Signal secondSignal) {
+        Operation operation = new Operation(firstSignal, secondSignal);
+        switch (showOperations()) {
+            case 1:
+                operation.add();
+                operation.result.createPlot();
+                operation.result.createHistogram();
+                break;
+            case 2:
+                operation.subtract();
+                operation.result.createPlot();
+                operation.result.createHistogram();
+                break;
+            case 3:
+                operation.multiply();
+                operation.result.createPlot();
+                operation.result.createHistogram();
+                break;
+            case 4:
+                operation.divide();
+                operation.result.createPlot();
+                operation.result.createHistogram();
+                break;
+            default:
+                System.out.println("Nieprzewidziana sytuacja ");
+        }
+        System.out.println(operation.result.gettMax());
+        saveOptions(operation.result, "operations.txt");
+    }
+
+
+    public static void saveOptions(Signal firstSignal, String path) {
+        switch (showSaveSignalOptions()) {
+            case 1:
+                firstSignal.saveParametersToFile("params" + path);
+                break;
+            case 2:
+                firstSignal.saveToFile("values" + path);
+                break;
+            default:
+                System.out.println("Nieprzewidziana sytuacja ");
+        }
+    }
+
+    public static Signal signalSwitch(int x, Signal firstSignal) {
+        switch (x) {
+            case 1:
+
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new SteadyNoise("signal1.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new SteadyNoise("params1.txt", Signal.Type.Params);
+                        break;
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal1.txt");
+                break;
+
+            case 2:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new GaussianNoise("signal2.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new GaussianNoise("params2.txt", Signal.Type.Params);
+                        break;
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal2.txt");
+
+
+                break;
+            case 3:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new SinSignal("signal3.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new SinSignal("params3.txt", Signal.Type.Params);
+                        break;
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal3.txt");
+
+
+                break;
+
+            case 4:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new SinSingleStraightSignal("signal4.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new SinSingleStraightSignal("params4.txt", Signal.Type.Params);
+                        break;
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal4.txt");
+
+                break;
+            case 5:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new SinDoubleStraightSignal("signal5.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new SinDoubleStraightSignal("params5.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal5.txt");
+
+                break;
+
+            case 6:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new RectangularSignal("signal6.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new RectangularSignal("params6.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal6.txt");
+
+                break;
+            case 7:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new RectangularSymmetricSignal("signal7.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new RectangularSymmetricSignal("params7.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal7.txt");
+
+                break;
+
+            case 8:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new TriangularSignal("signal8.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new TriangularSignal("params8.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal8.txt");
+
+                break;
+            case 9:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new UnitStep("signal9.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new UnitStep("params9.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal9.txt");
+
+                break;
+
+            case 10:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new UnitImpulse("signal10.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new UnitImpulse("params10.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createScatterPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal10.txt");
+
+                break;
+            case 11:
+                switch (showSignalOptions()) {
+                    case 1:
+                        firstSignal = new ImpulseNoise("signal11.txt", Signal.Type.Values);
+                        break;
+                    case 2:
+                        firstSignal = new ImpulseNoise("params11.txt", Signal.Type.Params);
+                        break;
+
+                    default:
+                        System.out.println("Nieprzewidziana sytuacja");
+                }
+                firstSignal.createScatterPlot();
+                firstSignal.createHistogram();
+                calculateParams(firstSignal);
+                saveOptions(firstSignal, "signal11.txt");
+
+                break;
+            default:
+                System.out.println("nieprzewidziana sytuacja");
+        }
+        return firstSignal;
+    }
+
+    public static void calculateParams(Signal signal) {
+        ParametersCalculator parametersCalculator = new ParametersCalculator(signal);
+        parametersCalculator.calculateAverage();
+        parametersCalculator.calculateAbsoluteAverage();
+        parametersCalculator.calculatePower();
+        parametersCalculator.calculateVariance();
+        parametersCalculator.calculateRMS();
     }
 
 }

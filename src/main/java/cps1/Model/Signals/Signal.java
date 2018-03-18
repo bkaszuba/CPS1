@@ -1,6 +1,7 @@
 package cps1.Model.Signals;
 
 import cps1.Model.Graphs.HistogramCreator;
+import cps1.Model.Graphs.ScatterPlotCreator;
 import cps1.Model.Graphs.XYLineChartCreator;
 import org.jfree.ui.RefineryUtilities;
 
@@ -9,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -23,7 +25,7 @@ public class Signal {
     protected double period;
     protected double fillingRate;
     protected double stepTime;
-
+    protected int numberOfBins = 5;
     public double dataSet[][];
     protected int arraySize;
 
@@ -43,8 +45,9 @@ public class Signal {
      *
      * @param data - data with X nad Y values
      */
-    public Signal(double data[][]) {
+    public Signal(double data[][], int arraySiz) {
         dataSet = data;
+        arraySize = arraySiz;
     }
 
 
@@ -131,14 +134,26 @@ public class Signal {
         XYLineChartCreator.pack();
         RefineryUtilities.centerFrameOnScreen(XYLineChartCreator);
         XYLineChartCreator.setVisible(true);
+
     }
+
+    public void createScatterPlot() {
+
+        ScatterPlotCreator scatterPlotCreator = new ScatterPlotCreator("", "", dataSet);
+        scatterPlotCreator.pack();
+        RefineryUtilities.centerFrameOnScreen(scatterPlotCreator);
+        scatterPlotCreator.setVisible(true);
+
+
+    }
+
 
     /**
      * Method for creating histogram graph
      */
     public void createHistogram() {
 
-        HistogramCreator histogramCreator = new HistogramCreator("", "", dataSet, 10);
+        HistogramCreator histogramCreator = new HistogramCreator("", "", dataSet, numberOfBins);
         histogramCreator.pack();
         RefineryUtilities.centerFrameOnScreen(histogramCreator);
         histogramCreator.setVisible(true);
@@ -159,9 +174,9 @@ public class Signal {
     /**
      * Method for saving data in file ( all values in x and y axis)
      */
-    public void saveToFile() {
+    public void saveToFile(String path) {
 
-        try (PrintWriter out = new PrintWriter("signal.txt")) {
+        try (PrintWriter out = new PrintWriter(path)) {
             for (int i = 0; i < arraySize; i++) {
                 for (int j = 0; j < 2; j++) {
 //                    out.printf("%.2f", dataSet[i][j]);
@@ -177,9 +192,9 @@ public class Signal {
         }
     }
 
-    public void saveParametersToFile() {
+    public void saveParametersToFile(String path) {
 
-        try (PrintWriter out = new PrintWriter("params.txt")) {
+        try (PrintWriter out = new PrintWriter(path)) {
             out.print(toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -235,7 +250,7 @@ public class Signal {
             period = Double.parseDouble(params[5]);
             fillingRate = Double.parseDouble(params[6]);
             stepTime = Double.parseDouble(params[7]);
-
+            numberOfBins = Integer.parseInt(params[8]);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
@@ -252,6 +267,11 @@ public class Signal {
                 ", period=" + period +
                 ", fillingRate=" + fillingRate +
                 ", stepTime=" + stepTime +
+                ", average=" + average +
+                ", absoluteAverage=" + absoluteAverage +
+                ", powerAverage=" + powerAverage +
+                ", variance=" + variance +
+                ", rms=" + rms +
                 '}';
     }
 

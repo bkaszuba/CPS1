@@ -23,7 +23,7 @@ public class HistogramCreator extends ApplicationFrame {
     public HistogramCreator(String applicationTitle, String chartTitle, double[][] data, int numberOfBins) {
         super(applicationTitle);
         JFreeChart histogram = ChartFactory.createHistogram(
-                chartTitle, "t", "x(t)", createDataset(data, numberOfBins), PlotOrientation.VERTICAL, false, true, false
+                chartTitle, "", "", createDataset(data, numberOfBins), PlotOrientation.VERTICAL, false, true, false
         );
 
 

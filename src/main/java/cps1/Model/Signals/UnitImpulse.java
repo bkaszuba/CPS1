@@ -27,20 +27,19 @@ public class UnitImpulse extends Signal {
     public void calculateValue() {
         for (int i = 0; i < arraySize; i++) {
 //            if (dataSet[i][0] == stepTime) {
-            if (i == stepTime) {
+            if (i == (int) stepTime) {
                 dataSet[i][1] = 1;
             } else {
                 dataSet[i][1] = 0;
 
             }
         }
-        super.showDataSet();
     }
 
     /**
      * Method calling base class method for drawing 2d graph
      */
     public void drawPlot() {
-        super.createPlot();
+        super.createScatterPlot();
     }
 }

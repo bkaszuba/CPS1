@@ -37,7 +37,6 @@ public class UnitStep extends Signal {
 
         }
 
-        super.showDataSet();
     }
 
     /**

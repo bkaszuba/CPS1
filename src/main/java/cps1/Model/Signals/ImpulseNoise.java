@@ -34,14 +34,13 @@ public class ImpulseNoise extends Signal {
 
             }
         }
-        super.showDataSet();
     }
 
     /**
      * Method calling base class method for drawing 2d graph
      */
     public void drawPlot() {
-        super.createPlot();
+        super.createScatterPlot();
     }
 }
 

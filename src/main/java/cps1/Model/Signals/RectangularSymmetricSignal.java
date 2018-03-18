@@ -38,8 +38,6 @@ public class RectangularSymmetricSignal extends Signal {
             }
 
         }
-
-        super.showDataSet();
     }
 
     /**

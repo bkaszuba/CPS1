@@ -9,7 +9,7 @@ public class Operation {
 
     Signal firstSignal;
     Signal secondSignal;
-    Signal result;
+    public Signal result;
     double dataSet[][];
     int arraySize;
 
@@ -30,8 +30,8 @@ public class Operation {
                 dataSet[i][1] = firstSignal.dataSet[i][1] + secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet);
-        result.createPlot();
+        result = new Signal(dataSet,arraySize);
+//        result.createPlot();
     }
     /**
      * Method for subtracting two signals
@@ -42,8 +42,8 @@ public class Operation {
                 dataSet[i][1] = firstSignal.dataSet[i][1] - secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet);
-        result.createPlot();
+        result = new Signal(dataSet,arraySize);
+//        result.createPlot();
     }
     /**
      * Method for multiplying two signals
@@ -54,8 +54,8 @@ public class Operation {
                 dataSet[i][1] = firstSignal.dataSet[i][1] * secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet);
-        result.createPlot();
+        result = new Signal(dataSet,arraySize);
+//        result.createPlot();
     }
     /**
      * Method for dividing two signals
@@ -66,8 +66,8 @@ public class Operation {
                 dataSet[i][1] = firstSignal.dataSet[i][1] / secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet);
-        result.createPlot();
+        result = new Signal(dataSet,arraySize);
+//        result.createPlot();
     }
 
     /**
