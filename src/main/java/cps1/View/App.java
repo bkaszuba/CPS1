@@ -7,9 +7,6 @@ import cps1.Model.Signals.*;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- * Hello world!
- */
 public class App {
 
 
@@ -17,14 +14,16 @@ public class App {
     static Signal secondSignal;
 
     public static void main(String[] args) throws IOException {
-
         Signal firstSignal1;
         Signal secondSignal2;
         firstSignal1 = signalSwitch(showSignals(), firstSignal);
         secondSignal2 = signalSwitch(showSignals(), secondSignal);
         operations(firstSignal1, secondSignal2);
-    }
+        operations(firstSignal1, secondSignal2);
+        operations(firstSignal1, secondSignal2);
+        operations(firstSignal1, secondSignal2);
 
+    }
 
     public static int showSignals() {
         int numberOfSignal;
@@ -106,17 +105,18 @@ public class App {
                 System.out.println("Nieprzewidziana sytuacja ");
         }
         System.out.println(operation.result.gettMax());
+        calculateParams(operation.result);
         saveOptions(operation.result, "operations.txt");
     }
 
 
-    public static void saveOptions(Signal firstSignal, String path) {
+    public static void saveOptions(Signal signal, String fileName) {
         switch (showSaveSignalOptions()) {
             case 1:
-                firstSignal.saveParametersToFile("params" + path);
+                signal.saveParametersToFile("Results/params" + fileName);
                 break;
             case 2:
-                firstSignal.saveToFile("values" + path);
+                signal.saveValuesToFile("Results/values" + fileName);
                 break;
             default:
                 System.out.println("Nieprzewidziana sytuacja ");
@@ -129,10 +129,10 @@ public class App {
 
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new SteadyNoise("signal1.txt", Signal.Type.Values);
+                        firstSignal = new SteadyNoise("resources/ValuesFile/signal1.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new SteadyNoise("params1.txt", Signal.Type.Params);
+                        firstSignal = new SteadyNoise("resources/ParamsFile/params1.txt", Signal.Type.Params);
                         break;
                     default:
                         System.out.println("Nieprzewidziana sytuacja");
@@ -146,10 +146,10 @@ public class App {
             case 2:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new GaussianNoise("signal2.txt", Signal.Type.Values);
+                        firstSignal = new GaussianNoise("resources/ValuesFile/signal2.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new GaussianNoise("params2.txt", Signal.Type.Params);
+                        firstSignal = new GaussianNoise("resources/ParamsFile/params2.txt", Signal.Type.Params);
                         break;
                     default:
                         System.out.println("Nieprzewidziana sytuacja");
@@ -164,10 +164,10 @@ public class App {
             case 3:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new SinSignal("signal3.txt", Signal.Type.Values);
+                        firstSignal = new SinSignal("resources/ValuesFile/signal3.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new SinSignal("params3.txt", Signal.Type.Params);
+                        firstSignal = new SinSignal("resources/ParamsFile/params3.txt", Signal.Type.Params);
                         break;
                     default:
                         System.out.println("Nieprzewidziana sytuacja");
@@ -183,10 +183,10 @@ public class App {
             case 4:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new SinSingleStraightSignal("signal4.txt", Signal.Type.Values);
+                        firstSignal = new SinSingleStraightSignal("resources/ValuesFile/signal4.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new SinSingleStraightSignal("params4.txt", Signal.Type.Params);
+                        firstSignal = new SinSingleStraightSignal("resources/ParamsFile/params4.txt", Signal.Type.Params);
                         break;
                     default:
                         System.out.println("Nieprzewidziana sytuacja");
@@ -200,10 +200,10 @@ public class App {
             case 5:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new SinDoubleStraightSignal("signal5.txt", Signal.Type.Values);
+                        firstSignal = new SinDoubleStraightSignal("resources/ValuesFile/signal5.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new SinDoubleStraightSignal("params5.txt", Signal.Type.Params);
+                        firstSignal = new SinDoubleStraightSignal("resources/ParamsFile/params5.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -219,10 +219,10 @@ public class App {
             case 6:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new RectangularSignal("signal6.txt", Signal.Type.Values);
+                        firstSignal = new RectangularSignal("resources/ValuesFile/signal6.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new RectangularSignal("params6.txt", Signal.Type.Params);
+                        firstSignal = new RectangularSignal("resources/ParamsFile/params6.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -237,10 +237,10 @@ public class App {
             case 7:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new RectangularSymmetricSignal("signal7.txt", Signal.Type.Values);
+                        firstSignal = new RectangularSymmetricSignal("resources/ValuesFile/signal7.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new RectangularSymmetricSignal("params7.txt", Signal.Type.Params);
+                        firstSignal = new RectangularSymmetricSignal("resources/ParamsFile/params7.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -256,10 +256,10 @@ public class App {
             case 8:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new TriangularSignal("signal8.txt", Signal.Type.Values);
+                        firstSignal = new TriangularSignal("resources/ValuesFile/signal8.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new TriangularSignal("params8.txt", Signal.Type.Params);
+                        firstSignal = new TriangularSignal("resources/ParamsFile/params8.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -274,10 +274,10 @@ public class App {
             case 9:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new UnitStep("signal9.txt", Signal.Type.Values);
+                        firstSignal = new UnitStep("resources/ValuesFile/signal9.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new UnitStep("params9.txt", Signal.Type.Params);
+                        firstSignal = new UnitStep("resources/ParamsFile/params9.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -293,10 +293,10 @@ public class App {
             case 10:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new UnitImpulse("signal10.txt", Signal.Type.Values);
+                        firstSignal = new UnitImpulse("resources/ValuesFile/signal10.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new UnitImpulse("params10.txt", Signal.Type.Params);
+                        firstSignal = new UnitImpulse("resources/ParamsFile/params10.txt", Signal.Type.Params);
                         break;
 
                     default:
@@ -311,10 +311,10 @@ public class App {
             case 11:
                 switch (showSignalOptions()) {
                     case 1:
-                        firstSignal = new ImpulseNoise("signal11.txt", Signal.Type.Values);
+                        firstSignal = new ImpulseNoise("resources/ValuesFile/signal11.txt", Signal.Type.Values);
                         break;
                     case 2:
-                        firstSignal = new ImpulseNoise("params11.txt", Signal.Type.Params);
+                        firstSignal = new ImpulseNoise("resources/ParamsFile/params11.txt", Signal.Type.Params);
                         break;
 
                     default:

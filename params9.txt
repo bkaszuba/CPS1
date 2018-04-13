@@ -1,1 +1,0 @@
-Signal{tMin=0, tMax=10, devide=0.01, amplitude=2, period=0.0, fillingRate=0.0, stepTime=4.0, numberOfBins=5}

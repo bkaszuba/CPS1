@@ -2,9 +2,6 @@ package cps1.Model.Operations;
 
 import cps1.Model.Signals.Signal;
 
-/**
- * Created by madekko on 13.03.2018.
- */
 public class Operation {
 
     Signal firstSignal;
@@ -13,16 +10,12 @@ public class Operation {
     double dataSet[][];
     int arraySize;
 
-
     public Operation(Signal _firstSignal, Signal _secondSignal) {
         firstSignal = _firstSignal;
         secondSignal = _secondSignal;
         calculateTime();
     }
 
-    /**
-     * Method for adding two signals
-     */
     public void add() {
         for (int i = 0; i < dataSet.length; i++) {
 
@@ -30,49 +23,40 @@ public class Operation {
                 dataSet[i][1] = firstSignal.dataSet[i][1] + secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet,arraySize);
-//        result.createPlot();
+        result = new Signal(dataSet, arraySize);
     }
-    /**
-     * Method for subtracting two signals
-     */
+
     public void subtract() {
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
             if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
                 dataSet[i][1] = firstSignal.dataSet[i][1] - secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet,arraySize);
-//        result.createPlot();
+        result = new Signal(dataSet, arraySize);
     }
-    /**
-     * Method for multiplying two signals
-     */
+
     public void multiply() {
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
             if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
                 dataSet[i][1] = firstSignal.dataSet[i][1] * secondSignal.dataSet[i][1];
             }
         }
-        result = new Signal(dataSet,arraySize);
-//        result.createPlot();
+        result = new Signal(dataSet, arraySize);
     }
-    /**
-     * Method for dividing two signals
-     */
+
     public void divide() {
         for (int i = 0; i < firstSignal.getArraySize(); i++) {
             if (isElementExists(firstSignal.dataSet, i) && isElementExists(secondSignal.dataSet, i)) {
-                dataSet[i][1] = firstSignal.dataSet[i][1] / secondSignal.dataSet[i][1];
+                if (secondSignal.dataSet[i][1] != 0) {
+                    dataSet[i][1] = firstSignal.dataSet[i][1] / secondSignal.dataSet[i][1];
+                } else {
+                    dataSet[i][1] = firstSignal.dataSet[i][1] / 0.0001;
+                }
             }
         }
-        result = new Signal(dataSet,arraySize);
-//        result.createPlot();
+        result = new Signal(dataSet, arraySize);
     }
 
-    /**
-     * Method for calculating values on X-Axis
-     */
     public void calculateTime() {
         int startX = getMin(firstSignal.gettMin(), secondSignal.gettMin());
         int endX = getMax(firstSignal.gettMax(), secondSignal.gettMax());
@@ -86,9 +70,6 @@ public class Operation {
         }
     }
 
-    /**
-     * Method for checking if element exists
-     */
     public static boolean isElementExists(double[][] data, int index) {
         try {
             Double d = data[index][0];
@@ -97,6 +78,7 @@ public class Operation {
             return false;
         }
     }
+
     public static int getMax(int a, int b) {
         return (a >= b ? a : b);
     }
