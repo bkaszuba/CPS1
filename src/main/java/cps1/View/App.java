@@ -2,6 +2,7 @@ package cps1.View;
 
 import cps1.Model.Operations.Operation;
 import cps1.Model.Operations.ParametersCalculator;
+import cps1.Model.Operations.SamplingCalculator;
 import cps1.Model.Signals.*;
 
 import java.io.IOException;
@@ -14,14 +15,23 @@ public class App {
     static Signal secondSignal;
 
     public static void main(String[] args) throws IOException {
-        Signal firstSignal1;
-        Signal secondSignal2;
-        firstSignal1 = signalSwitch(showSignals(), firstSignal);
-        secondSignal2 = signalSwitch(showSignals(), secondSignal);
-        operations(firstSignal1, secondSignal2);
-        operations(firstSignal1, secondSignal2);
-        operations(firstSignal1, secondSignal2);
-        operations(firstSignal1, secondSignal2);
+        //Only for testing
+        SinSignal sinSignal = new SinSignal(0,4, 0.001, 2, 2);
+        SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal,10);
+        Signal sampledSignal =  samplingCalculator.createSampleSignal();
+        sampledSignal.createScatterPlot();
+        Signal quantizedSignal = samplingCalculator.calculateQuantization(2);
+        quantizedSignal.createScatterPlot();
+        quantizedSignal.createPlot();
+
+//        Signal firstSignal1;
+//        Signal secondSignal2;
+//        firstSignal1 = signalSwitch(showSignals(), firstSignal);
+//        secondSignal2 = signalSwitch(showSignals(), secondSignal);
+//        operations(firstSignal1, secondSignal2);
+//        operations(firstSignal1, secondSignal2);
+//        operations(firstSignal1, secondSignal2);
+//        operations(firstSignal1, secondSignal2);
 
     }
 
@@ -158,8 +168,6 @@ public class App {
                 firstSignal.createHistogram();
                 calculateParams(firstSignal);
                 saveOptions(firstSignal, "signal2.txt");
-
-
                 break;
             case 3:
                 switch (showSignalOptions()) {
@@ -176,8 +184,6 @@ public class App {
                 firstSignal.createHistogram();
                 calculateParams(firstSignal);
                 saveOptions(firstSignal, "signal3.txt");
-
-
                 break;
 
             case 4:

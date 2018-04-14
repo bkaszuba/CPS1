@@ -3,7 +3,6 @@ package cps1.Model.Signals;
 import cps1.Model.Graphs.HistogramCreator;
 import cps1.Model.Graphs.ScatterPlotCreator;
 import cps1.Model.Graphs.XYLineChartCreator;
-import cps1.Model.Operations.ParametersCalculator;
 import org.jfree.ui.RefineryUtilities;
 
 import java.io.*;
@@ -29,9 +28,8 @@ public class Signal {
     protected double variance;
     protected double rms;
 
-
     public enum Type {
-        Params, Values;
+        Params, Values
     }
 
     public Signal(double data[][], int arraySiz) {
@@ -110,9 +108,7 @@ public class Signal {
             for (int i = 0; i < arraySize; i++) {
                 for (int j = 0; j < 2; j++) {
 //                    out.printf("%.2f", dataSet[i][j]);
-                    out.print(dataSet[i][j]);
-
-                    out.print(" ");
+                    out.print(dataSet[i][j] + " ");
                 }
                 out.println();
             }

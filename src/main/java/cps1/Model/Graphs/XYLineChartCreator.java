@@ -9,9 +9,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 
-/**
- * Created by madekko on 14.03.2018.
- */
 public class XYLineChartCreator extends ApplicationFrame {
 
     public XYLineChartCreator(String applicationTitle, String chartTitle, double[][] data) {
