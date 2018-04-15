@@ -25,6 +25,7 @@ public class App {
         quantizedSignal.createPlot();
         Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
         reconstuctionSignal.createPlot();
+        samplingCalculator.createPlot();
 //        Signal firstSignal1;
 //        Signal secondSignal2;
 //        firstSignal1 = signalSwitch(showSignals(), firstSignal);

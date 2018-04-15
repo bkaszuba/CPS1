@@ -1,12 +1,13 @@
 package cps1.Model.Operations;
 
+import cps1.Model.Graphs.MultiplePlotCreator;
 import cps1.Model.Signals.Signal;
+import org.jfree.ui.RefineryUtilities;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
 
 public class SamplingCalculator {
 
@@ -89,5 +90,11 @@ public class SamplingCalculator {
             }
         }
         return new Signal(reconstractionDataSet, sampleDataSet.length);
+    }
+    public void createPlot() {
+        MultiplePlotCreator multiplePlotCreator = new MultiplePlotCreator("", "", reconstractionDataSet, signal.dataSet);
+        multiplePlotCreator.pack();
+        RefineryUtilities.centerFrameOnScreen(multiplePlotCreator);
+        multiplePlotCreator.setVisible(true);
     }
 }
