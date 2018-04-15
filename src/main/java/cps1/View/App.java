@@ -17,15 +17,21 @@ public class App {
     public static void main(String[] args) throws IOException {
         //Only for testing
         SinSignal sinSignal = new SinSignal(0, 4, 0.01, 2, 2);
+        ImpulseNoise impulseNoise = new ImpulseNoise(0, 4, 0.01, 2, 2);
         SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal, 10);
         Signal sampledSignal = samplingCalculator.createSampleSignal();
 //        sampledSignal.createScatterPlot();
         Signal quantizedSignal = samplingCalculator.calculateQuantization(2);
 //        quantizedSignal.createScatterPlot();
-        quantizedSignal.createPlot();
-        Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
-        reconstuctionSignal.createPlot();
-        samplingCalculator.createPlot();
+        //quantizedSignal.createPlot();
+        //Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
+        //reconstuctionSignal.createPlot();
+        //samplingCalculator.createPlot();
+        ParametersCalculator parametersCalculator = new ParametersCalculator(sinSignal);
+        System.out.println("MSE: " + parametersCalculator.calculateMSE(sinSignal, quantizedSignal));
+        System.out.println("MD: " + parametersCalculator.calculateMD(sinSignal, quantizedSignal));
+        System.out.println("SNR: " + parametersCalculator.calculateSNR(sinSignal, quantizedSignal));
+        System.out.println("PSNR: " + parametersCalculator.calculatePSNR(sinSignal, quantizedSignal));
 //        Signal firstSignal1;
 //        Signal secondSignal2;
 //        firstSignal1 = signalSwitch(showSignals(), firstSignal);
