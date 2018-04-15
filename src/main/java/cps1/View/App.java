@@ -16,14 +16,15 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         //Only for testing
-        SinSignal sinSignal = new SinSignal(0,4, 0.001, 2, 2);
-        SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal,10);
-        Signal sampledSignal =  samplingCalculator.createSampleSignal();
-        sampledSignal.createScatterPlot();
+        SinSignal sinSignal = new SinSignal(0, 4, 0.01, 2, 2);
+        SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal, 10);
+        Signal sampledSignal = samplingCalculator.createSampleSignal();
+//        sampledSignal.createScatterPlot();
         Signal quantizedSignal = samplingCalculator.calculateQuantization(2);
-        quantizedSignal.createScatterPlot();
+//        quantizedSignal.createScatterPlot();
         quantizedSignal.createPlot();
-
+        Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
+        reconstuctionSignal.createPlot();
 //        Signal firstSignal1;
 //        Signal secondSignal2;
 //        firstSignal1 = signalSwitch(showSignals(), firstSignal);

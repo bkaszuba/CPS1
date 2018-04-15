@@ -14,6 +14,7 @@ public class SamplingCalculator {
     private double sampleDataSet[][];
     private int sampleTime;
     private double quantizedDataSet[][];
+    private double reconstractionDataSet[][];
 
     public SamplingCalculator(Signal sig, int samTime) {
         this.signal = sig;
@@ -41,7 +42,7 @@ public class SamplingCalculator {
         Double min = values.stream().min(comparing(Double::valueOf)).get();
         Double max = values.stream().max(comparing(Double::valueOf)).get();
         Double range = (max - min) / Math.pow(2, n);
-        for (double i = min; i < max; i += range) {
+        for (double i = min; i <= max; i += range) {
             rangeValues.add(i);
         }
         quantizedDataSet = new double[sampleDataSet.length][2];
@@ -59,5 +60,34 @@ public class SamplingCalculator {
             quantizedDataSet[i][1] = value;
         }
         return new Signal(quantizedDataSet, sampleDataSet.length);
+    }
+
+    public Signal calculateReconstraction() {
+        double range = Math.abs(quantizedDataSet[quantizedDataSet.length - 1][0] - quantizedDataSet[0][0]);
+        reconstractionDataSet = new double[(int) (range / 0.01)][2];
+        reconstractionDataSet[0][1] = quantizedDataSet[0][1];
+        reconstractionDataSet[reconstractionDataSet.length - 1][1] = quantizedDataSet[quantizedDataSet.length - 1][1];
+        double value = quantizedDataSet[0][0];
+        for (int i = 0; i < reconstractionDataSet.length; i++) {
+            reconstractionDataSet[i][0] = value;
+            value = value + 0.01;
+        }
+        for (int i = 0; i < quantizedDataSet.length; i++) {
+            for (int j = 0; j < reconstractionDataSet.length; j++) {
+                if (reconstractionDataSet[j][0] == quantizedDataSet[i][0]) {
+                    reconstractionDataSet[j][1] = quantizedDataSet[i][1];
+                }
+            }
+        }
+        double temp = quantizedDataSet[0][1];
+        for (int j = 0; j < reconstractionDataSet.length - 1; j++) {
+            if (reconstractionDataSet[j + 1][1] != temp && reconstractionDataSet[j + 1][1] != 0.0) {
+                temp = reconstractionDataSet[j + 1][1];
+                reconstractionDataSet[j][1] = temp;
+            } else {
+                reconstractionDataSet[j][1] = temp;
+            }
+        }
+        return new Signal(reconstractionDataSet, sampleDataSet.length);
     }
 }
