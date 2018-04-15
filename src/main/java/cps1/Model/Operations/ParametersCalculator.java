@@ -85,20 +85,10 @@ public class ParametersCalculator {
     }
 
     public double calculateMSE(Signal firstSignal, Signal secondSignal) {
-        double sum_sq = 0;
+        double sum_sq = calculateDifferenceSumSquared(firstSignal, secondSignal);
         double mse;
-        int length = secondSignal.dataSet.length;
-        for (int i = 0; i < secondSignal.dataSet.length; i++) {
-            for(int j=0; j<firstSignal.dataSet.length; j++) {
-                if (secondSignal.dataSet[i][0] == firstSignal.dataSet[j][0]) {
-                    double p1 = firstSignal.dataSet[j][1];
-                    double p2 = secondSignal.dataSet[i][1];
-                    double err = p2 - p1;
-                    sum_sq += (err * err);
-                }
-            }
-        }
-        mse = sum_sq / length * length;
+        double length = secondSignal.dataSet.length;
+        mse = 1/length * sum_sq;
         return mse;
     }
 
@@ -110,6 +100,19 @@ public class ParametersCalculator {
         double noiseRMS = secondSignal.getRms();
         double signalRMS = firstSignal.getRms();
         return Math.pow(signalRMS / noiseRMS, 2);
+    }
+
+    // Gives the same result as method above, but this is 1:1 formula from wikamp
+    // Above formula was found in the internet
+    public double calculateSNR2(Signal firstSignal, Signal secondSignal) {
+        double noise = calculateDifferenceSumSquared(firstSignal, secondSignal);
+        double signal=  0;
+        double value;
+        for(int i=0; i<firstSignal.dataSet.length; i++) {
+            value = firstSignal.dataSet[i][1];
+            signal += value * value;
+        }
+        return Math.log10((signal/noise));
     }
 
     public double calculatePSNR(Signal signal, Signal secondSignal) {
@@ -135,5 +138,20 @@ public class ParametersCalculator {
             }
         }
         return Collections.max(difference);
+    }
+
+    public double calculateDifferenceSumSquared(Signal firstSignal, Signal secondSignal) {
+        double sum_sq = 0;
+        for (int i = 0; i < secondSignal.dataSet.length; i++) {
+            for(int j=0; j<firstSignal.dataSet.length; j++) {
+                if (secondSignal.dataSet[i][0] == firstSignal.dataSet[j][0]) {
+                    double p1 = firstSignal.dataSet[j][1];
+                    double p2 = secondSignal.dataSet[i][1];
+                    double err = p2 - p1;
+                    sum_sq += (err * err);
+                }
+            }
+        }
+        return sum_sq;
     }
 }

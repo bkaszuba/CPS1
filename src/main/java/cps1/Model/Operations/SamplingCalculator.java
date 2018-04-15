@@ -92,7 +92,7 @@ public class SamplingCalculator {
         return new Signal(reconstractionDataSet, sampleDataSet.length);
     }
     public void createPlot() {
-        MultiplePlotCreator multiplePlotCreator = new MultiplePlotCreator("", "", reconstractionDataSet, signal.dataSet);
+        MultiplePlotCreator multiplePlotCreator = new MultiplePlotCreator("", "", quantizedDataSet, signal.dataSet);
         multiplePlotCreator.pack();
         RefineryUtilities.centerFrameOnScreen(multiplePlotCreator);
         multiplePlotCreator.setVisible(true);

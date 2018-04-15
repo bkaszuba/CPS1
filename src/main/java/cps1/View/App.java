@@ -26,7 +26,7 @@ public class App {
         //quantizedSignal.createPlot();
         //Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
         //reconstuctionSignal.createPlot();
-        //samplingCalculator.createPlot();
+        samplingCalculator.createPlot();
         ParametersCalculator parametersCalculator = new ParametersCalculator(sinSignal);
         System.out.println("MSE: " + parametersCalculator.calculateMSE(sinSignal, quantizedSignal));
         System.out.println("MD: " + parametersCalculator.calculateMD(sinSignal, quantizedSignal));
