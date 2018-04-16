@@ -17,13 +17,15 @@ public class App {
     public static void main(String[] args) throws IOException {
         //Only for testing
         SinSignal sinSignal = new SinSignal(0, 4, 0.01, 2, 2);
-        ImpulseNoise impulseNoise = new ImpulseNoise(0, 4, 0.01, 2, 2);
+//        TriangularSignal sinSignal = new TriangularSignal(0, 4, 0.01, 2, 2, 0.5);
+//        RectangularSymmetricSignal sinSignal = new RectangularSymmetricSignal(0, 4, 0.01, 2, 2, 0.5);
+//        SteadyNoise sinSignal = new SteadyNoise(0, 4, 0.01, 2);
+        sinSignal.createPlot();
         SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal, 10);
         Signal sampledSignal = samplingCalculator.createSampleSignal();
-//        sampledSignal.createScatterPlot();
+        sampledSignal.createScatterPlot();
         Signal quantizedSignal = samplingCalculator.calculateQuantization(2);
-//        quantizedSignal.createScatterPlot();
-        //quantizedSignal.createPlot();
+        quantizedSignal.createScatterPlot();
         Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
         reconstuctionSignal.createPlot();
         samplingCalculator.createPlot();
