@@ -23,7 +23,9 @@ public class SamplingCalculator {
     }
 
     public Signal createSampleSignal() {
-        sampleDataSet = new double[signal.dataSet.length / sampleTime][2];
+        int arraySize = (signal.gettMax() - signal.gettMin()) * sampleTime;
+        sampleDataSet = new double[arraySize][2];
+//        sampleDataSet = new double[signal.dataSet.length / sampleTime][2];
         int k = 0;
         for (int i = 0; i < signal.dataSet.length; i += sampleTime) {
             for (int j = 0; j < 2; j++) {
@@ -65,7 +67,7 @@ public class SamplingCalculator {
 
     public Signal calculateReconstraction() {
         double range = Math.abs(quantizedDataSet[quantizedDataSet.length - 1][0] - quantizedDataSet[0][0]);
-        reconstractionDataSet = new double[(int) (range / 0.01)][2];
+        reconstractionDataSet = new double[(int) (range /0.01)][2];
         reconstractionDataSet[0][1] = quantizedDataSet[0][1];
         reconstractionDataSet[reconstractionDataSet.length - 1][1] = quantizedDataSet[quantizedDataSet.length - 1][1];
         double value = quantizedDataSet[0][0];
@@ -91,8 +93,9 @@ public class SamplingCalculator {
         }
         return new Signal(reconstractionDataSet, sampleDataSet.length);
     }
+
     public void createPlot() {
-        MultiplePlotCreator multiplePlotCreator = new MultiplePlotCreator("", "", quantizedDataSet, signal.dataSet);
+        MultiplePlotCreator multiplePlotCreator = new MultiplePlotCreator("", "", reconstractionDataSet, signal.dataSet);
         multiplePlotCreator.pack();
         RefineryUtilities.centerFrameOnScreen(multiplePlotCreator);
         multiplePlotCreator.setVisible(true);
