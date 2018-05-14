@@ -8,8 +8,8 @@ public class SteadyNoise extends Signal {
     public static final double FILLING_RATE = 0.0;
     public static final double STEPT = 0.0;
 
-    public SteadyNoise(int _tMin, int _tMax, double _devide, int _amplitude) {
-        super(_tMin, _tMax, _devide, _amplitude, PERIOD, FILLING_RATE, STEPT);
+    public SteadyNoise(int _tMin, int _tMax, int _frequency, int _amplitude) {
+        super(_tMin, _tMax, _frequency, _amplitude, PERIOD, FILLING_RATE, STEPT);
         this.calculateValue();
     }
 

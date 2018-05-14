@@ -112,7 +112,7 @@ public class ParametersCalculator {
             value = firstSignal.dataSet[i][1];
             signal += value * value;
         }
-        return Math.log10((signal/noise));
+        return 10 * Math.log10((signal/noise));
     }
 
     public double calculatePSNR(Signal signal, Signal secondSignal) {

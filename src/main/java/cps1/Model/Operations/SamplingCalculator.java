@@ -16,6 +16,7 @@ public class SamplingCalculator {
     private int sampleTime;
     private double quantizedDataSet[][];
     private double reconstractionDataSet[][];
+    private int arraySize;
 
     public SamplingCalculator(Signal sig, int samTime) {
         this.signal = sig;
@@ -23,15 +24,16 @@ public class SamplingCalculator {
     }
 
     public Signal createSampleSignal() {
-//        int arraySize = (signal.gettMax() - signal.gettMin()) * sampleTime;
-//        sampleDataSet = new double[arraySize][2];
-        sampleDataSet = new double[signal.dataSet.length / sampleTime][2];
+        arraySize = (signal.gettMax() - signal.gettMin()) * sampleTime;
+        sampleDataSet = new double[arraySize][2];
         int k = 0;
-        for (int i = 0; i < signal.dataSet.length; i += sampleTime) {
-            for (int j = 0; j < 2; j++) {
-                sampleDataSet[k][j] = signal.dataSet[i][j];
+        for (int i = 0; i < signal.dataSet.length; i += Math.ceil((double)signal.getArraySize()/ arraySize)) {
+            if (k < arraySize) {
+                for (int j = 0; j < 2; j++) {
+                    sampleDataSet[k][j] = signal.dataSet[i][j];
+                }
+                k++;
             }
-            k++;
         }
         return new Signal(sampleDataSet, sampleDataSet.length);
     }
@@ -44,7 +46,7 @@ public class SamplingCalculator {
         List<Double> rangeValues = new ArrayList<>();
         Double min = values.stream().min(comparing(Double::valueOf)).get();
         Double max = values.stream().max(comparing(Double::valueOf)).get();
-        Double range = (max - min) /( Math.pow(2, n) -1);
+        Double range = (max - min) / (Math.pow(2, n));
         for (double i = min; i <= max; i += range) {
             rangeValues.add(i);
         }
@@ -65,16 +67,18 @@ public class SamplingCalculator {
         return new Signal(quantizedDataSet, sampleDataSet.length);
     }
 
-    public Signal calculateReconstraction() {
-        double range = Math.abs(quantizedDataSet[quantizedDataSet.length - 1][0] - quantizedDataSet[0][0]);
-        reconstractionDataSet = new double[(int) (range / 0.01)][2];
+    public Signal calculateReconstraction(int tMin, int tMax, int sampling) {
+        int range = Math.abs(tMax - tMin);
+        reconstractionDataSet = new double[range * sampling][2];
         reconstractionDataSet[0][1] = quantizedDataSet[0][1];
         reconstractionDataSet[reconstractionDataSet.length - 1][1] = quantizedDataSet[quantizedDataSet.length - 1][1];
-        double value = quantizedDataSet[0][0];
+        double value = tMin;
+        double step = (double) range / reconstractionDataSet.length;
         for (int i = 0; i < reconstractionDataSet.length; i++) {
             reconstractionDataSet[i][0] = value;
-            value = value + 0.01;
+            value = value + step;
         }
+
         for (int i = 0; i < quantizedDataSet.length; i++) {
             for (int j = 0; j < reconstractionDataSet.length; j++) {
                 if (reconstractionDataSet[j][0] == quantizedDataSet[i][0]) {
@@ -85,15 +89,12 @@ public class SamplingCalculator {
                 }
             }
         }
-
-
         double temp = quantizedDataSet[0][1];
         for (int j = 0; j < reconstractionDataSet.length - 1; j++) {
             if (reconstractionDataSet[j + 1][1] != temp && reconstractionDataSet[j + 1][1] != 0.0) {
                 temp = reconstractionDataSet[j + 1][1];
                 reconstractionDataSet[j][1] = temp;
-            }
-            else {
+            } else {
                 reconstractionDataSet[j][1] = temp;
             }
         }

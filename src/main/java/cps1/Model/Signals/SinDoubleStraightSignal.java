@@ -5,8 +5,8 @@ public class SinDoubleStraightSignal extends Signal {
     public static final double STEPT = 0.0;
     public static final double FILLING_RATE = 0.0;
 
-    public SinDoubleStraightSignal(int minT, int maxT, double customDevide, int amplit, double perio) {
-        super(minT, maxT, customDevide, amplit, perio, FILLING_RATE, STEPT);
+    public SinDoubleStraightSignal(int minT, int maxT, int _frequency, int amplit, double perio) {
+        super(minT, maxT, _frequency, amplit, perio, FILLING_RATE, STEPT);
         this.calculateValue();
     }
 

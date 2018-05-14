@@ -5,8 +5,8 @@ public class ImpulseNoise extends Signal {
     public static final double FILLING_RATE = 0.0;
     public static final double PERIOD = FILLING_RATE;
 
-    public ImpulseNoise(int _tMin, int _tMax, double _divide, int _amplitude, double _timeStep) {
-        super(_tMin, _tMax, _divide, _amplitude, PERIOD, FILLING_RATE, _timeStep);
+    public ImpulseNoise(int _tMin, int _tMax, int _frequency, int _amplitude, double _timeStep) {
+        super(_tMin, _tMax, _frequency, _amplitude, PERIOD, FILLING_RATE, _timeStep);
         this.calculateValue();
     }
 

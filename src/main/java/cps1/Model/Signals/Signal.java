@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Signal {
     protected int tMin;
     protected int tMax;
-    protected double devide = 1;
+    protected int frequency = 1;
     protected int amplitude;
     protected double period;
     protected double fillingRate;
@@ -50,10 +50,10 @@ public class Signal {
         }
     }
 
-    public Signal(int _tMin, int _tMax, double _devide, int _amplitude, double _period, double _fillingRate, double _stept) {
+    public Signal(int _tMin, int _tMax, int _frequency, int _amplitude, double _period, double _fillingRate, double _stept) {
         tMin = _tMin;
         tMax = _tMax;
-        devide = _devide;
+        frequency = _frequency;
         amplitude = _amplitude;
         period = _period;
         fillingRate = _fillingRate;
@@ -63,12 +63,13 @@ public class Signal {
 
     public void calculateTime() {
         int range = Math.abs(tMax - tMin);
-        arraySize = (int) (range / devide);
+        arraySize = range * frequency;
         this.dataSet = new double[arraySize][2];
+        double step = (double) range / arraySize;
         double value = tMin;
         for (int i = 0; i < arraySize; i++) {
             dataSet[i][0] = value;
-            value = value + devide;
+            value = value + step;
         }
     }
 
@@ -158,7 +159,7 @@ public class Signal {
             String[] params = param.split("\\s+");
             tMin = Integer.parseInt(params[1]);
             tMax = Integer.parseInt(params[2]);
-            devide = Double.parseDouble(params[3]);
+            frequency = Integer.parseInt(params[3]);
             amplitude = Integer.parseInt(params[4]);
             period = Double.parseDouble(params[5]);
             fillingRate = Double.parseDouble(params[6]);
@@ -174,7 +175,7 @@ public class Signal {
         return "Signal{" +
                 "tMin=" + tMin +
                 ", tMax=" + tMax +
-                ", devide=" + devide +
+                ", frequency=" + frequency +
                 ", amplitude=" + amplitude +
                 ", period=" + period +
                 ", fillingRate=" + fillingRate +

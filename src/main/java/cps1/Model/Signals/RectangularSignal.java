@@ -4,8 +4,8 @@ public class RectangularSignal extends Signal {
 
     public static final double STEPT = 0.0;
 
-    public RectangularSignal(int _tMin, int _tMax, double _devide, int _amplitude, double _period, double _fillingRate) {
-        super(_tMin, _tMax, _devide, _amplitude, _period, _fillingRate, STEPT);
+    public RectangularSignal(int _tMin, int _tMax, int _frequency, int _amplitude, double _period, double _fillingRate) {
+        super(_tMin, _tMax, _frequency, _amplitude, _period, _fillingRate, STEPT);
         this.calculateValue();
     }
 

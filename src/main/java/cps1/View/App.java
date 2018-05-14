@@ -1,5 +1,6 @@
 package cps1.View;
 
+import cps1.Model.Operations.ConvolutionCalculator;
 import cps1.Model.Operations.Operation;
 import cps1.Model.Operations.ParametersCalculator;
 import cps1.Model.Operations.SamplingCalculator;
@@ -10,39 +11,43 @@ import java.util.Scanner;
 
 public class App {
 
-
     static Signal firstSignal;
     static Signal secondSignal;
 
     public static void main(String[] args) throws IOException {
-        //Only for testing
-        SinSignal sinSignal = new SinSignal(0, 4, 0.01, 2, 2);
-//        TriangularSignal sinSignal = new TriangularSignal(0, 4, 0.01, 2, 2, 0.5);
-//        RectangularSymmetricSignal sinSignal = new RectangularSymmetricSignal(0, 4, 0.01, 2, 2, 0.5);
-//        SteadyNoise sinSignal = new SteadyNoise(0, 4, 0.01, 2);
+        SinSignal sinSignal = new SinSignal(0, 4, 100, 2, 2);
+        ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
+        Signal test = convolutionCalculator.calculateConvolution(sinSignal, sinSignal);
+        test.createPlot();
+    }
+
+    public static void calculateTask1() {
+        Signal firstSignal1;
+        Signal secondSignal2;
+        firstSignal1 = signalSwitch(showSignals(), firstSignal);
+        secondSignal2 = signalSwitch(showSignals(), secondSignal);
+        operations(firstSignal1, secondSignal2);
+        operations(firstSignal1, secondSignal2);
+        operations(firstSignal1, secondSignal2);
+        operations(firstSignal1, secondSignal2);
+    }
+
+    public static void calculateTask2() {
+        SinSignal sinSignal = new SinSignal(0, 4, 100, 2, 2);
         sinSignal.createPlot();
-        SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal, 10);
+        SamplingCalculator samplingCalculator = new SamplingCalculator(sinSignal, 3);
         Signal sampledSignal = samplingCalculator.createSampleSignal();
         sampledSignal.createScatterPlot();
-        Signal quantizedSignal = samplingCalculator.calculateQuantization(2);
+        Signal quantizedSignal = samplingCalculator.calculateQuantization(4);
         quantizedSignal.createScatterPlot();
-        Signal reconstuctionSignal = samplingCalculator.calculateReconstraction();
+        Signal reconstuctionSignal = samplingCalculator.calculateReconstraction(0, 4, 100);
         reconstuctionSignal.createPlot();
         samplingCalculator.createPlot();
         ParametersCalculator parametersCalculator = new ParametersCalculator(sinSignal);
-        System.out.println("MSE: " + parametersCalculator.calculateMSE(sinSignal, quantizedSignal));
-        System.out.println("MD: " + parametersCalculator.calculateMD(sinSignal, quantizedSignal));
-        System.out.println("SNR: " + parametersCalculator.calculateSNR(sinSignal, quantizedSignal));
-        System.out.println("PSNR: " + parametersCalculator.calculatePSNR(sinSignal, quantizedSignal));
-//        Signal firstSignal1;
-//        Signal secondSignal2;
-//        firstSignal1 = signalSwitch(showSignals(), firstSignal);
-//        secondSignal2 = signalSwitch(showSignals(), secondSignal);
-//        operations(firstSignal1, secondSignal2);
-//        operations(firstSignal1, secondSignal2);
-//        operations(firstSignal1, secondSignal2);
-//        operations(firstSignal1, secondSignal2);
-
+        System.out.println("MSE: " + parametersCalculator.calculateMSE(sinSignal, reconstuctionSignal));
+        System.out.println("MD: " + parametersCalculator.calculateMD(sinSignal, reconstuctionSignal));
+        System.out.println("SNR: " + parametersCalculator.calculateSNR(sinSignal, reconstuctionSignal));
+        System.out.println("PSNR: " + parametersCalculator.calculatePSNR(sinSignal, reconstuctionSignal));
     }
 
     public static int showSignals() {
