@@ -16,7 +16,6 @@ public class Operation {
         calculateTime();
     }
 
-    //FIXME Ustawianie pozostałych paramsów jak tMin, tMax czy frequency
     public void add() {
         for (int i = 0; i < dataSet.length; i++) {
 
@@ -25,6 +24,8 @@ public class Operation {
             }
         }
         result = new Signal(dataSet, arraySize);
+        result.settMin(firstSignal.gettMin());
+        result.settMax(firstSignal.gettMax());
     }
 
     public void subtract() {

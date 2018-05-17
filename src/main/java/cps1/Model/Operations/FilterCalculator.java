@@ -7,7 +7,6 @@ public class FilterCalculator {
     double[] filter;
 
     public FilterCalculator(int filterRow, double cutOffFrequency, double originalFrequency, FilterType filterType, Window window) {
-
         switch (filterType) {
             case Lowpass:
                 filter = calculateLowPassFilter(filterRow, cutOffFrequency, originalFrequency, window);
@@ -16,7 +15,7 @@ public class FilterCalculator {
                 filter = calculateHighPassFilter(filterRow, cutOffFrequency, originalFrequency, window);
                 break;
             case Bandpass:
-                filter =calculateBandPassFilter(filterRow, cutOffFrequency, originalFrequency, window);
+                filter = calculateBandPassFilter(filterRow, cutOffFrequency, originalFrequency, window);
                 break;
         }
     }

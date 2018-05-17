@@ -243,4 +243,12 @@ public class Signal {
     public int getFrequency() {
         return frequency;
     }
+
+    public void settMin(int tMin) {
+        this.tMin = tMin;
+    }
+
+    public void settMax(int tMax) {
+        this.tMax = tMax;
+    }
 }

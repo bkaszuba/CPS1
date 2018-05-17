@@ -1,7 +1,6 @@
 package cps1.View;
 
 import cps1.Model.Operations.*;
-import cps1.Model.Operations.Windows.BlackmanWindow;
 import cps1.Model.Operations.Windows.RectangularWindow;
 import cps1.Model.Signals.*;
 
@@ -17,13 +16,13 @@ public class App {
         SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 0.05);
         Operation operation = new Operation(sinSignal1, sinSignal2);
         operation.add();
-        Signal suma = operation.result;
-        suma.createPlot();
+        Signal sum = operation.result;
+        sum.createPlot();
         ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
-        FilterCalculator filterCalculator = new FilterCalculator(7, 16, 110, FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
+        FilterCalculator filterCalculator = new FilterCalculator(7, 16, sinSignal1.getFrequency(), FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
         double[] filterValue = filterCalculator.getFilter();
-        Signal test = convolutionCalculator.calculateFilterConvolution(filterValue, suma);
-        test.createPlot();
+        Signal filteredSum = convolutionCalculator.calculateFilterConvolution(filterValue, sum);
+        filteredSum.createPlot();
     }
 
     public static void calculateTask1() {
