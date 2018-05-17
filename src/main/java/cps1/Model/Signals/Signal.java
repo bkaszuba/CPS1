@@ -240,5 +240,7 @@ public class Signal {
         return arraySize;
     }
 
-
+    public int getFrequency() {
+        return frequency;
+    }
 }
