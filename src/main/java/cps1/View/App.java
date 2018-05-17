@@ -1,11 +1,10 @@
 package cps1.View;
 
 import cps1.Model.Operations.*;
-import cps1.Model.Operations.Windows.HammingWindow;
-import cps1.Model.Operations.Windows.Window;
+import cps1.Model.Operations.Windows.BlackmanWindow;
+import cps1.Model.Operations.Windows.RectangularWindow;
 import cps1.Model.Signals.*;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class App {
@@ -14,19 +13,16 @@ public class App {
     static Signal secondSignal;
 
     public static void main(String[] args) {
-        SinSignal sinSignal1 = new SinSignal(0, 4, 20, 1, 2);
-        SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 2);
+        SinSignal sinSignal1 = new SinSignal(0, 4, 100, 1, 0.5);
+        SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 0.05);
         Operation operation = new Operation(sinSignal1, sinSignal2);
         operation.add();
         Signal suma = operation.result;
         suma.createPlot();
-        //sinSignal1.createPlot();
         ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
-        Signal conv = convolutionCalculator.calculateConvolution(sinSignal1, sinSignal2);
-        conv.createPlot();
-        FilterCalculator filterCalculator = new FilterCalculator(256, 40, sinSignal1.getFrequency(), FilterCalculator.FilterType.Highpass, new HammingWindow(256));
+        FilterCalculator filterCalculator = new FilterCalculator(7, 16, 110, FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
         double[] filterValue = filterCalculator.getFilter();
-        Signal test = convolutionCalculator.calculateConvolutionForFilter(sinSignal1, filterValue);
+        Signal test = convolutionCalculator.calculateFilterConvolution(filterValue, suma);
         test.createPlot();
     }
 

@@ -16,6 +16,7 @@ public class Operation {
         calculateTime();
     }
 
+    //FIXME Ustawianie pozostałych paramsów jak tMin, tMax czy frequency
     public void add() {
         for (int i = 0; i < dataSet.length; i++) {
 
