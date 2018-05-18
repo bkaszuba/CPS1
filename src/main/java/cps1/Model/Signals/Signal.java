@@ -50,12 +50,12 @@ public class Signal {
         }
     }
 
-    public Signal(int _tMin, int _tMax, int _frequency, int _amplitude, double _period, double _fillingRate, double _stept) {
+    public Signal(int _tMin, int _tMax, int _frequency, int _amplitude, double frequencySig, double _fillingRate, double _stept) {
         tMin = _tMin;
         tMax = _tMax;
         frequency = _frequency;
         amplitude = _amplitude;
-        period = _period;
+        this.period = 1.0 / frequencySig;
         fillingRate = _fillingRate;
         stepTime = _stept;
         calculateTime();

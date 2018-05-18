@@ -1,6 +1,8 @@
 package cps1.View;
 
 import cps1.Model.Operations.*;
+import cps1.Model.Operations.Windows.HammingWindow;
+import cps1.Model.Operations.Windows.HanningWindow;
 import cps1.Model.Operations.Windows.RectangularWindow;
 import cps1.Model.Signals.*;
 
@@ -12,14 +14,15 @@ public class App {
     static Signal secondSignal;
 
     public static void main(String[] args) {
-        SinSignal sinSignal1 = new SinSignal(0, 4, 100, 1, 0.5);
-        SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 0.05);
+        //Mala zmiana: 200 - samplingFrequency a 2 - signalFrequency
+        SinSignal sinSignal1 = new SinSignal(0, 4, 100, 1, 2);
+        SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 20);
         Operation operation = new Operation(sinSignal1, sinSignal2);
         operation.add();
         Signal sum = operation.result;
         sum.createPlot();
         ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
-        FilterCalculator filterCalculator = new FilterCalculator(7, 16, sinSignal1.getFrequency(), FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
+        FilterCalculator filterCalculator = new FilterCalculator(7, 10, sinSignal1.getFrequency(), FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
         double[] filterValue = filterCalculator.getFilter();
         Signal filteredSum = convolutionCalculator.calculateFilterConvolution(filterValue, sum);
         filteredSum.createPlot();
