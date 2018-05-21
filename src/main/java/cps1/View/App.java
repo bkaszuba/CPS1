@@ -1,6 +1,7 @@
 package cps1.View;
 
 import cps1.Model.Operations.*;
+import cps1.Model.Operations.Windows.BlackmanWindow;
 import cps1.Model.Operations.Windows.HammingWindow;
 import cps1.Model.Operations.Windows.HanningWindow;
 import cps1.Model.Operations.Windows.RectangularWindow;
@@ -15,17 +16,32 @@ public class App {
 
     public static void main(String[] args) {
         //Mala zmiana: 200 - samplingFrequency a 2 - signalFrequency
-        SinSignal sinSignal1 = new SinSignal(0, 4, 100, 1, 2);
-        SinSignal sinSignal2 = new SinSignal(0, 4, 100, 1, 20);
+        SinSignal sinSignal1 = new SinSignal(0, 4, 200, 1, 2);
+        SinSignal sinSignal2 = new SinSignal(0, 4, 200, 1, 20);
         Operation operation = new Operation(sinSignal1, sinSignal2);
         operation.add();
+        ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
+        Signal signal =  convolutionCalculator.calculateSignalConvolution(sinSignal1, sinSignal1);
+        signal.createPlot();
+        System.out.println( sinSignal1.toString());
+        System.out.println( sinSignal2.toString());
         Signal sum = operation.result;
         sum.createPlot();
-        ConvolutionCalculator convolutionCalculator = new ConvolutionCalculator();
-        FilterCalculator filterCalculator = new FilterCalculator(7, 10, sinSignal1.getFrequency(), FilterCalculator.FilterType.Lowpass, new RectangularWindow(7));
+        FilterCalculator filterCalculator = new FilterCalculator(31, 4, sinSignal1.getFrequency(), FilterCalculator.FilterType.Lowpass, new RectangularWindow(31));
         double[] filterValue = filterCalculator.getFilter();
         Signal filteredSum = convolutionCalculator.calculateFilterConvolution(filterValue, sum);
         filteredSum.createPlot();
+        Signal test = convolutionCalculator.calculateSignalCorelation(sinSignal1, sinSignal1);
+        test.createPlot();
+        SinSignal sinSignal3 = new SinSignal(0, 4, 100, 2, 1);
+        sinSignal3.createPlot();
+        double velocity = 100.0;
+        double distance = 50.0;
+        double time = distance/velocity;
+        Signal signal4 = convolutionCalculator.shiftSignalValues(sinSignal3, time);
+        Signal corelationSignal = convolutionCalculator.calculateSignalCorelation(sinSignal3, signal4);
+        convolutionCalculator.calculateDistance(velocity, corelationSignal);
+        signal.createPlot();
     }
 
     public static void calculateTask1() {
