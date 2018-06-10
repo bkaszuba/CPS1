@@ -1,12 +1,30 @@
 package cps1.View;
 
+import cps1.Model.ChartManager;
 import cps1.Model.Operations.*;
+import cps1.Model.Operations.Transformation.FastFourierTransformation;
+import cps1.Model.Operations.Transformation.FourierDiscreteTransformation;
 import cps1.Model.Operations.Windows.BlackmanWindow;
 import cps1.Model.Operations.Windows.HammingWindow;
 import cps1.Model.Operations.Windows.HanningWindow;
 import cps1.Model.Operations.Windows.RectangularWindow;
 import cps1.Model.Signals.*;
+import org.apache.commons.math3.complex.Complex;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.CombinedDomainCategoryPlot;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.ui.RefineryUtilities;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
@@ -15,6 +33,38 @@ public class App {
     static Signal secondSignal;
 
     public static void main(String[] args) {
+        ChartManager chartManager = new ChartManager("Signal");
+        chartManager.pack( );
+        RefineryUtilities.centerFrameOnScreen(chartManager);
+        chartManager.setVisible( true );
+
+
+
+//        FourierDiscreteTransformation fourierDiscreteTransformation = new FourierDiscreteTransformation(-1);
+//        Signal afterTran = fourierDiscreteTransformation.transformationBody(s);
+//        Complex com[] = afterTran.getImaginary();
+//        double[][] data = new double[com.length][2];
+//        for(int j =0; j < com.length; j++) {
+//            data[j][0] = j;
+//            data[j][1] = (int)com[j].getReal();
+//        }
+//        Signal x = new Signal(data, data.length);
+//        x.createPlot();
+//
+//        FastFourierTransformation fastFourierTransformation = new FastFourierTransformation(-1);
+//        Signal afterTran2 = fastFourierTransformation.transformationBody(s);
+//        Complex com2[] = afterTran2.getImaginary();
+//        double[][] data2 = new double[com2.length][2];
+//        for(int j =0; j < com.length; j++) {
+//            data2[j][0] = j;
+//            data2[j][1] = (int)com2[j].getReal();
+//        }
+//        Signal y = new Signal(data2, data2.length);
+//        y.createPlot();
+
+    }
+
+    private static void calculateTask3() {
         //Mala zmiana: 200 - samplingFrequency a 2 - signalFrequency
         SinSignal sinSignal1 = new SinSignal(0, 4, 200, 1, 2);
         SinSignal sinSignal2 = new SinSignal(0, 4, 200, 1, 20);
@@ -384,5 +434,7 @@ public class App {
         parametersCalculator.calculateVariance();
         parametersCalculator.calculateRMS();
     }
+
+
 
 }

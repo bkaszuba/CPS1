@@ -3,6 +3,7 @@ package cps1.Model.Signals;
 import cps1.Model.Graphs.HistogramCreator;
 import cps1.Model.Graphs.ScatterPlotCreator;
 import cps1.Model.Graphs.XYLineChartCreator;
+import org.apache.commons.math3.complex.Complex;
 import org.jfree.ui.RefineryUtilities;
 
 import java.io.*;
@@ -21,7 +22,7 @@ public class Signal {
     protected int numberOfBins = 5;
     public double dataSet[][];
     protected int arraySize;
-
+    private Complex[] imaginary;
     protected double average;
     protected double absoluteAverage;
     protected double powerAverage;
@@ -30,6 +31,9 @@ public class Signal {
 
     public enum Type {
         Params, Values
+    }
+
+    public Signal() {
     }
 
     public Signal(double data[][], int arraySiz) {
@@ -250,5 +254,17 @@ public class Signal {
 
     public void settMax(int tMax) {
         this.tMax = tMax;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+    }
+
+    public Complex[] getImaginary() {
+        return imaginary;
+    }
+
+    public void setImaginary(Complex[] imaginary) {
+        this.imaginary = imaginary;
     }
 }
