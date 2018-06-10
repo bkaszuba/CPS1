@@ -54,6 +54,46 @@ public class CosinusTransformation extends Transformation {
         return result;
     }
 
+    @Override
+    public Signal restoreSignal(Signal signal) {
+
+        int N;
+
+        if(bitCount <= 0) {
+            bitCount = (int) FastMath.log(2, signal.getImaginary().length);
+            N = (int)Math.pow(2, bitCount);
+        }
+        else {
+            N = (int) Math.pow(2, bitCount);
+        }
+
+        Complex[] input = signal.getImaginary();
+        Complex[] output = new Complex[N];
+
+        System.out.println(this.toString());
+        System.out.println("bitCount: " + (int) FastMath.log(2, N ));
+
+        for (int m = 0; m < N; m++) {
+
+            double X = 0;
+
+            for (int n = 0; n < N; n++) {
+
+                X += c(m, N) *  input[n].getReal() * Math.cos(Math.PI * (2d * n + 1) * m / (2d * N));
+
+            }
+
+            output[m] = new Complex(X, 0);
+
+        }
+
+        Signal result = new Signal();
+        result.setFrequency(signal.getFrequency());
+        result.setImaginary(output);
+
+        return result;
+    }
+
     double c(int x, int N) {
 
         if (x == 0) {

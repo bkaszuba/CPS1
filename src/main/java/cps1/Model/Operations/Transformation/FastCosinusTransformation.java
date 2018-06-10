@@ -60,6 +60,12 @@ public class FastCosinusTransformation extends Transformation {
         return result;
     }
 
+    @Override
+    public Signal restoreSignal(Signal signal) {
+        //TODO IMPLEMENT
+        return new Signal();
+    }
+
     double c(int x, int N) {
 
         if (x == 0) {

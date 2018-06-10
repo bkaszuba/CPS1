@@ -22,4 +22,6 @@ public abstract class Transformation {
     }
 
     public abstract Signal transformationBody(Signal signal);
+
+    public abstract Signal restoreSignal(Signal signal);
 }

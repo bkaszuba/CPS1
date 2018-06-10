@@ -64,6 +64,56 @@ public class FastFourierTransformation extends Transformation {
         return fourierTransform;
     }
 
+    @Override
+    public Signal restoreSignal(Signal signal) {
+        int N;
+
+        if(bitCount <= 0) {
+            bitCount = (int)FastMath.log(2, signal.getImaginary().length);
+            N = (int)Math.pow(2, bitCount);
+        }
+        else {
+            N = (int) Math.pow(2, bitCount);
+        }
+
+        Complex[] complexValues = new Complex[N];
+
+        System.out.println(this.toString());
+        System.out.println("bitCount: " + (int) FastMath.log(2, N ));
+
+        for (int i = 0; i < N; i++) {
+            Complex currentComplexValue = signal.getImaginary()[i];
+            complexValues[i] = new Complex(currentComplexValue.getReal(), currentComplexValue.getImaginary());
+        }
+
+        complexValues = inverse(complexValues);
+
+        for (int n = 2; n <= N; n *= 2) {
+            Complex[] complexesTmp = new Complex[N];
+
+            for (int i = 0; i < N; i += n) {
+                for (int b = i; b < i + n; b++) {
+                    complexesTmp[b] = complexValues[b % (n / 2) + i].add(coreReverse((b % n), n).multiply(complexValues[b % (n / 2) + i + n / 2]));
+                }
+            }
+
+            for (int i = 0; i < N; i++) {
+                complexValues[i] = new Complex(complexesTmp[i].getReal(), complexesTmp[i].getImaginary());
+            }
+        }
+
+        Complex[] result = new Complex[N];
+        for (int i = 0; i < N; i++) {
+            result[i] = new Complex(complexValues[i].getReal(), complexValues[i].getImaginary());
+        }
+
+        Signal fourierTransform = new Signal();
+        fourierTransform.setImaginary(result);
+        fourierTransform.setFrequency(signal.getFrequency());
+
+        return fourierTransform;
+    }
+
     private Complex[] inverse(Complex[] input) {
 
         Complex[] result = new Complex[input.length];
@@ -90,6 +140,12 @@ public class FastFourierTransformation extends Transformation {
     }
 
     private Complex core(int k, int N) {
+        double x = 2 * Math.PI * k / N;
+        return new Complex(Math.cos(x), -Math.sin(x));
+    }
+
+    private Complex coreReverse(int k, int N) {
+        k = Math.abs(k);
         double x = 2 * Math.PI * k / N;
         return new Complex(Math.cos(x), -Math.sin(x));
     }

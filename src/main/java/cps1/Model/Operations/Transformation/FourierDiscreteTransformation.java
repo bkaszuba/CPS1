@@ -65,6 +65,56 @@ public class FourierDiscreteTransformation extends Transformation {
     }
 
     @Override
+    public Signal restoreSignal(Signal signal) {
+        int N;
+
+        if(bitCount <= 0) {
+            bitCount = (int)FastMath.log(2, signal.getImaginary().length);
+            N = (int)Math.pow(2, bitCount);
+        }
+        else {
+            N = (int) Math.pow(2, bitCount);
+        }
+
+        Complex[] input = new Complex[N];
+
+        System.out.println(this.toString());
+        System.out.println("bitCount: " + (int)FastMath.log(2, N ));
+
+        for (int i = 0; i < N; i++) {
+            Complex currentComplexValue = signal.getImaginary()[i];
+            input[i] = new Complex(currentComplexValue.getReal(), currentComplexValue.getImaginary());
+        }
+
+        Complex[] output = new Complex[N];
+
+        for (int k = 0; k < N; k++) {
+
+            double re = 0;
+            double im = 0;
+
+            for (int t = 0; t < N; t++) {
+
+                double x = 2 * Math.PI * t * k / N;
+                double sin = Math.sin(x);
+                double cos = Math.cos(x);
+
+                re += input[t].getReal() * cos + input[t].getImaginary() * sin;
+                im += input[t].getReal() * sin + input[t].getImaginary() * cos;
+
+            }
+
+            output[k] = new Complex(re, im);
+        }
+
+        Signal result = new Signal();
+        result.setFrequency(signal.getFrequency());
+        result.setImaginary(output);
+
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "TransformataFouriereNaZbiorzeDyskretnym (DFT)";
     }

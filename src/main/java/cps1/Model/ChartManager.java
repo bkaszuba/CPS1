@@ -27,7 +27,7 @@ public class ChartManager extends ApplicationFrame {
         super(title);
         this.signal = getDefaultSignal();
         final ChartPanel panel = new ChartPanel(createChart());
-        panel.setPreferredSize(new java.awt.Dimension(600, 400));
+        panel.setPreferredSize(new java.awt.Dimension(900, 900));
         setContentPane(panel);
     }
 
@@ -47,17 +47,32 @@ public class ChartManager extends ApplicationFrame {
         FastCosinusTransformation fastCosinusTransformation = new FastCosinusTransformation(-1);
         Signal afterFastCosinus = fastCosinusTransformation.transformationBody(this.signal);
 
+        addToPlot(plot, createRealNumbersSet(this.signal, ""));
+
+
 //        addToPlot(plot, createRealNumbersSet(afterDiscreteFourier, "Real"));
 //        addToPlot(plot, createImaginaryNumbersSet(afterDiscreteFourier, "Imaginary"));
 //
-//        addToPlot(plot, createRealNumbersSet(afterFastFourier, "Real"));
-//        addToPlot(plot, createImaginaryNumbersSet(afterFastFourier, "Imaginary"));
+        addToPlot(plot, createRealNumbersSet(afterFastFourier, "Real"));
+        addToPlot(plot, createImaginaryNumbersSet(afterFastFourier, "Imaginary"));
 
-        addToPlot(plot, createRealNumbersSet(afterCosinus, "Real"));
-        addToPlot(plot, createImaginaryNumbersSet(afterCosinus, "Imaginary"));
 
-        addToPlot(plot, createRealNumbersSet(afterFastCosinus, "Real"));
-        addToPlot(plot, createImaginaryNumbersSet(afterFastCosinus, "Imaginary"));
+
+//        addToPlot(plot, createRealNumbersSet(afterCosinus, "Real"));
+//        addToPlot(plot, createImaginaryNumbersSet(afterCosinus, "Imaginary"));
+
+//        addToPlot(plot, createRealNumbersSet(afterFastCosinus, "Real"));
+//        addToPlot(plot, createImaginaryNumbersSet(afterFastCosinus, "Imaginary"));
+
+//        Signal restoreCos = cosinusTransformation.restoreSignal(afterCosinus);
+//        addToPlot(plot, createRealNumbersSet(restoreCos, "Real"));
+
+//        Signal restoreDiscreteFourier = fourierDiscreteTransformation.restoreSignal(afterDiscreteFourier);
+//        addToPlot(plot, createRealNumbersSet(restoreDiscreteFourier, ""));
+
+        Signal restoreFastFourier = fastFourierTransformation.restoreSignal(afterFastFourier);
+        addToPlot(plot, createRealNumbersSet(restoreFastFourier, ""));
+
 
         final JFreeChart result = new JFreeChart(
                 "Signal",
