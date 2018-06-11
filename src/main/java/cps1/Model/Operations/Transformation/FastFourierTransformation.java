@@ -15,6 +15,7 @@ public class FastFourierTransformation extends Transformation {
 
     @Override
     public Signal transformationBody(Signal signal) {
+        double start = System.currentTimeMillis();
 
         int N;
 
@@ -60,7 +61,8 @@ public class FastFourierTransformation extends Transformation {
         Signal fourierTransform = new Signal();
         fourierTransform.setImaginary(result);
         fourierTransform.setFrequency(signal.getFrequency());
-
+        double transformationTime = System.currentTimeMillis() - start;
+        System.out.println(transformationTime);
         return fourierTransform;
     }
 

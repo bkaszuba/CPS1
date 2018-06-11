@@ -16,6 +16,7 @@ public class CosinusTransformation extends Transformation {
 
     @Override
     public Signal transformationBody(Signal signal) {
+        double start = System.currentTimeMillis();
 
         int N;
 
@@ -51,6 +52,8 @@ public class CosinusTransformation extends Transformation {
         result.setFrequency(signal.getFrequency());
         result.setImaginary(output);
 
+        double transformationTime = System.currentTimeMillis() - start;
+        System.out.println(transformationTime);
         return result;
     }
 

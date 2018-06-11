@@ -34,44 +34,50 @@ public class ChartManager extends ApplicationFrame {
     public JFreeChart createChart() {
         final CategoryAxis domainAxis = new CategoryAxis("Sections");
         final CombinedDomainCategoryPlot plot = new CombinedDomainCategoryPlot(domainAxis);
-
-        FourierDiscreteTransformation fourierDiscreteTransformation = new FourierDiscreteTransformation(-1);
-        Signal afterDiscreteFourier = fourierDiscreteTransformation.transformationBody(this.signal);
-
-        FastFourierTransformation fastFourierTransformation = new FastFourierTransformation(-1);
-        Signal afterFastFourier = fastFourierTransformation.transformationBody(this.signal);
-
-        CosinusTransformation cosinusTransformation = new CosinusTransformation(-1);
-        Signal afterCosinus = cosinusTransformation.transformationBody(this.signal);
-
-        FastCosinusTransformation fastCosinusTransformation = new FastCosinusTransformation(-1);
-        Signal afterFastCosinus = fastCosinusTransformation.transformationBody(this.signal);
-
         addToPlot(plot, createRealNumbersSet(this.signal, ""));
 
-
+//        FourierDiscreteTransformation fourierDiscreteTransformation = new FourierDiscreteTransformation(-1);
+//        Signal afterDiscreteFourier = fourierDiscreteTransformation.transformationBody(this.signal);
 //        addToPlot(plot, createRealNumbersSet(afterDiscreteFourier, "Real"));
 //        addToPlot(plot, createImaginaryNumbersSet(afterDiscreteFourier, "Imaginary"));
-//
-        addToPlot(plot, createRealNumbersSet(afterFastFourier, "Real"));
-        addToPlot(plot, createImaginaryNumbersSet(afterFastFourier, "Imaginary"));
-
-
-
-//        addToPlot(plot, createRealNumbersSet(afterCosinus, "Real"));
-//        addToPlot(plot, createImaginaryNumbersSet(afterCosinus, "Imaginary"));
-
-//        addToPlot(plot, createRealNumbersSet(afterFastCosinus, "Real"));
-//        addToPlot(plot, createImaginaryNumbersSet(afterFastCosinus, "Imaginary"));
-
-//        Signal restoreCos = cosinusTransformation.restoreSignal(afterCosinus);
-//        addToPlot(plot, createRealNumbersSet(restoreCos, "Real"));
-
 //        Signal restoreDiscreteFourier = fourierDiscreteTransformation.restoreSignal(afterDiscreteFourier);
 //        addToPlot(plot, createRealNumbersSet(restoreDiscreteFourier, ""));
 
-        Signal restoreFastFourier = fastFourierTransformation.restoreSignal(afterFastFourier);
-        addToPlot(plot, createRealNumbersSet(restoreFastFourier, ""));
+//        FastFourierTransformation fastFourierTransformation = new FastFourierTransformation(-1);
+//        Signal afterFastFourier = fastFourierTransformation.transformationBody(this.signal);
+//        addToPlot(plot, createRealNumbersSet(afterFastFourier, "Real"));
+//        addToPlot(plot, createImaginaryNumbersSet(afterFastFourier, "Imaginary"));
+//        Signal restoreFastFourier = fastFourierTransformation.restoreSignal(afterFastFourier);
+//        addToPlot(plot, createRealNumbersSet(restoreFastFourier, ""));
+
+
+//        CosinusTransformation cosinusTransformation = new CosinusTransformation(-1);
+//        Signal afterCosinus = cosinusTransformation.transformationBody(this.signal);
+//        addToPlot(plot, createRealNumbersSet(afterCosinus, "Real"));
+//        addToPlot(plot, createImaginaryNumbersSet(afterCosinus, "Imaginary"));
+//        Signal restoreCos = cosinusTransformation.restoreSignal(afterCosinus);
+//        addToPlot(plot, createRealNumbersSet(restoreCos, "Real"));
+
+        FastCosinusTransformation fastCosinusTransformation = new FastCosinusTransformation(-1);
+        Signal afterFastCosinus = fastCosinusTransformation.transformationBody(this.signal);
+        addToPlot(plot, createRealNumbersSet(afterFastCosinus, "Real"));
+        addToPlot(plot, createImaginaryNumbersSet(afterFastCosinus, "Imaginary"));
+        addToPlot(plot, createRealNumbersSet(this.signal, ""));
+
+
+
+//
+
+
+
+
+
+
+
+
+//
+
+
 
 
         final JFreeChart result = new JFreeChart(
@@ -123,7 +129,7 @@ public class ChartManager extends ApplicationFrame {
 
     private Signal getDefaultSignal(){
         int startTime = 0;
-        int endTime = 10;
+        int endTime = 1;
         int frequency = 16;
 
         int range = endTime-startTime;
